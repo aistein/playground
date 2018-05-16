@@ -4,6 +4,7 @@ go test -v
 ```
 
 #### Expected Output
+```
 === RUN   TestProductOfOtherNumbers
 --- PASS: TestProductOfOtherNumbers (0.00s)
 	ProductOfOtherNumbers_test.go:33: Passed Test "small vector"
@@ -16,3 +17,4 @@ go test -v
 	ProductOfOtherNumbers_test.go:33: Passed Test "error with empty slice"
 PASS
 ok  	_/Users/alexstein/Code/Repositories/playground/interview_cake/go	0.006s
+```
