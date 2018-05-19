@@ -1,6 +1,5 @@
 ---
 excerpt: Interview Cake Problem 24: Product of Other Numbers
-layout: post
 mathjax: true
 ---
 
