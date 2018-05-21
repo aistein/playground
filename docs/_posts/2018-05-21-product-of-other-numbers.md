@@ -18,7 +18,7 @@ The first key observation from our naive solution is that many multiplications a
 
 The second key observation is that - if we are careful in using the intermediate array - a symmetry arises which allows us to terminate in $O(n)$ time. When considering index $k$ we essentially want to combine two partial products: the product of elements to the left of $k$, and that of elements to the right of $k$.  We can pass down $M$ once incrementally calculating the product of all $n$ numbers, and then pass back up it once "dynamically" calculating the product of elements less than the current index.
 
-#### Imperative Implementation (C++)
+#### Imperative Implementation (C++) [[source]](https://github.com/aistein/playground/blob/master/interview_cake/cpp/product_of_other_numbers.cpp)
   ```cpp
   vector<int> getProductsOfAllIntsExceptAtIndex(const vector<int>& intVector)
   {
@@ -62,7 +62,7 @@ The second key observation is that - if we are careful in using the intermediate
       return O;
   }
 ```
-#### Functional Implementation (OCaml)
+#### Functional Implementation (OCaml) [[source]](https://github.com/aistein/playground/blob/master/interview_cake/ml/product_of_other_numbers.ml)
   ```ocaml
   exception List_Too_Small of int;;
   let prodOfOtherNums l =
