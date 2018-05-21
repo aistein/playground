@@ -1,5 +1,5 @@
 ---
-exerpt: TFRecrds and the api for creating them are poorly documented in spite of being the preferred method of ingesting data. Here we give you some practical examples of creating and reading tfrecords.
+excerpt: TFRecrds and the api for creating them are poorly documented in spite of being the preferred method of ingesting data. Here we give you some practical examples of creating and reading tfrecords.
 ---
 
 Every deep neural network training algorithm revolves around a stream of input data to train on. In Tensorflow the preferred method for data input is via tfrecords. Tfrecords are a binary file format of your data using Google's protocol buffers which provide fast and efficient disk reads. Tfrecords also allow datasets to be split across multiple files in case they do not fit in memory.
