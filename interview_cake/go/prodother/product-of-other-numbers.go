@@ -1,9 +1,9 @@
-package main
+package prodother
 
 import "fmt"
 
-// ProductOfOtherNumbers takes the slice A and returns a slice O 
-//  for which each element at index i of O corresponds to the product of 
+// ProductOfOtherNumbers takes the slice A and returns a slice O
+//  for which each element at index i of O corresponds to the product of
 //  all elements in A except the one at index i.
 func ProductOfOtherNumbers(A []int) ([]int, error) {
 
@@ -12,7 +12,7 @@ func ProductOfOtherNumbers(A []int) ([]int, error) {
 
 	// Error case
 	if n <= 1 {
-		return []int{}, fmt.Errorf("product-of-other-numbers: list of size %d is too small", n) 
+		return []int{}, fmt.Errorf("product-of-other-numbers: list of size %d is too small", n)
 	}
 
 	O := make([]int, n)
@@ -48,7 +48,7 @@ func ProductOfOtherNumbers(A []int) ([]int, error) {
 		pivot++
 	}
 	O[n-1] = M[pivot-1]
-	
+
     return O, nil
 }
 

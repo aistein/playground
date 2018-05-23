@@ -1,4 +1,4 @@
-package main
+package prodother
 
 import "testing"
 import "fmt"
