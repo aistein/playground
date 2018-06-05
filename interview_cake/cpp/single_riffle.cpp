@@ -15,6 +15,11 @@ bool isSingleRiffle(
     size_t half1Index = 0;
     size_t half2Index = 0;
 
+    // error case
+    if (half1.size() == 0 || half2.size() == 0 || shuffledDeck.size() == 0) {
+        throw std::length_error("all decks must have nonzero size.");
+    }
+
     for (int card : shuffledDeck) {
         // if there are cards in half1
         // and the card in half1 is the same as the top
@@ -76,6 +81,9 @@ const lest::test tests[] = {
         const auto actual = isSingleRiffle(half1, half2, shuffledDeck);
         const auto expected = false;
         EXPECT(actual == expected);
+    },
+    CASE("zero sized deck") {
+        EXPECT_THROWS(isSingleRiffle({1}, {2}, {}));
     },
 };
 
