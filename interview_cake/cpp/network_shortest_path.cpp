@@ -49,32 +49,26 @@ vector<string> getPath(const unordered_map<string, vector<string>>& graph,
 	// -- the startNode's parent has to be itself, so we can identify it later
 	unordered_map<string, string> parents ( {{startNode, startNode}} );;
 
-	// Unordered Set to hold visited nodes
-	unordered_set<string> visited;
-
 	// a single BFS post-order traversal to find the shortest path
 	while ( !Q.empty() ) {
 
 		// visit the current node
-		string currNode = Q.front();
-		visited.insert(currNode);
-
-		// enqueue its children
-		auto children = graph.at(currNode);
-		for ( string child : children ) {
-			parents.insert({child, currNode});
-
-			// break out early if we've found the endNode
-			if (child.compare(endNode) == 0)
-				return makePath(parents, endNode);
-
-			// otherwise, continue BFS
-			if (visited.find(child) == visited.end())
-				Q.push_back(child);
-		}
-
-		// dequeue the current node
+		string currNode = move(Q.front());
 		Q.pop_front();
+
+		// break out early if we've found the endNode
+		if (currNode.compare(endNode) == 0)
+			return makePath(parents, endNode);
+
+		// never before visited? enqueue its children
+		auto children = graph.find(currNode)->second;
+		for ( const auto &child : children ) {
+			// push child on the queue (only if not already visited!)
+			if (parents.count(child) == 0) {
+				Q.push_back(child);
+				parents.insert({child, currNode});
+			}
+		}
 	}
 
 
