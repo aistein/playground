@@ -7,7 +7,7 @@
 using namespace std;
 
 // DP Solution running in O(n), with O(1) space
-int fibDP(int n)
+int fib_DP(int n)
 {
     // compute the nth Fibonacci number
     if (n < 0)
@@ -85,6 +85,11 @@ int fib(int n) {
 // tests
 
 const lest::test tests[] = {
+    CASE("huge Fibonacci") {
+        const int actual = fib(100000000000);
+        const int expected = 0;
+        EXPECT(actual == expected);
+    },
     CASE("zeroth Fibonacci") {
         const int actual = fib(0);
         const int expected = 0;
