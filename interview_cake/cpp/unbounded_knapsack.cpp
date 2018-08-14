@@ -31,14 +31,21 @@ unsigned long long maxDuffelBagValue(const std::vector<CakeType>& cakeTypes,
 
 	// Find the max value at each capacity from 0 to weightCapacity (DP buildup)
 	for (unsigned int i = 0; i <= weightCapacity; i++) {
+
 		unsigned long long currentMax = 0;
+		
 		// loop over each cakeType and see if adding this one will increase the maxValue
 		for (auto cakeType : cakeTypes) {
+
+			// could have infinitely many 0-weight, positively valued cakes, throw infinity error
 			if ( cakeType.weight_ == 0 && cakeType.value_ > 0 )
 				throw overflow_error("max value is infinity, because zero-weight, nonzero-value cake");
+
+			// if we choose this cake, what is the max possible remaining value we could get with the excess capacity?
 			if ( i >= cakeType.weight_ ) {
 				currentMax = max( currentMax , cakeType.value_ + maxValueUsing[i - cakeType.weight_] );
 			}
+
 		}
 		maxValueUsing[i] = currentMax;
 	}
