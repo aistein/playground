@@ -1,6 +1,6 @@
 #include <iostream>
 #include <memory>
-#include <deque>
+#include <stack>
 #include <unordered_set>
 
 // C++11 lest unit testing framework
@@ -44,17 +44,18 @@ public:
 bool isBalanced(const BinaryTreeNode* treeRoot)
 {
     // determine if the tree is superbalanced
-    deque<const BinaryTreeNode *> nodeStack;
-    unordered_set<const BinaryTreeNode *> explored;
+    stack<pair<const BinaryTreeNode *, int>> nodeStack;
     int minLeafDepth = INT_MAX;
     int maxLeafDepth = 0;
     int numDistinctDepths = 0;
-    int currDepth = 0;
 
-    nodeStack.push_front(treeRoot);
+    nodeStack.push(make_pair(treeRoot, 0));
     while (!nodeStack.empty()) {
         // get the next node from the stack
-        const BinaryTreeNode *curr = nodeStack.front();
+        const BinaryTreeNode *curr = nodeStack.top().first;
+		int currDepth = nodeStack.top().second;
+		nodeStack.pop();
+
 
 		#ifdef DEBUG
 		printf("-- current depth is %d\n", currDepth);
@@ -69,7 +70,7 @@ bool isBalanced(const BinaryTreeNode* treeRoot)
 			#endif
 
             // first check if this is a new distinct depth
-            if (currDepth != minLeafDepth && currDepth != maxLeafDepth)
+            if (numDistinctDepths == 0 || (currDepth != minLeafDepth && currDepth != maxLeafDepth))
                 ++numDistinctDepths;
 
             // next, update min and max leaf depths
@@ -84,50 +85,34 @@ bool isBalanced(const BinaryTreeNode* treeRoot)
 
                 return false;
 			}
-
-            // continue traversal
-            explored.insert(curr);
-            nodeStack.pop_front();
-            --currDepth;
         }
 
         // this is not a leaf node, continue post-order traversal
         /// if the left branch exists and node isn't explored, go there
-        else if ( curr->left_ && ( explored.find(curr->left_) == explored.end() ) ) {
-			#ifdef DEBUG
-			printf("exploring left branch\n");
-			#endif
-
-            nodeStack.push_front(curr->left_);
-			++currDepth;
-		}
-
-        /// if the right branch exists and node isn't explored, go there
-        else if ( curr->right_ && explored.find(curr->right_) == explored.end() ) {
-			#ifdef DEBUG
-			printf("exploring right branch\n");
-			#endif
-
-            nodeStack.push_front(curr->right_);
-			++currDepth;
-		}
-
-        /// all subtrees explored --> So am I! POP!
         else {
-			#ifdef DEBUG
-			printf("internal node fully explored\n");
-			#endif
+			if ( curr->left_ ) {
+				#ifdef DEBUG
+				printf("exploring left branch\n");
+				#endif
 
-            explored.insert(curr);
-            nodeStack.pop_front();
-			--currDepth;
-        }
+            	nodeStack.push(make_pair(curr->left_, currDepth + 1));
+			}
+
+        	/// if the right branch exists and node isn't explored, go there
+        	if ( curr->right_ ) {
+				#ifdef DEBUG
+				printf("exploring right branch\n");
+				#endif
+
+            	nodeStack.push(make_pair(curr->right_, currDepth + 1));
+			}
+		}
     }
 
 	#ifdef DEBUG
 	printf("this tree is superbalanced!\n\n");
 	#endif
-	
+
     return true;
 }
 
