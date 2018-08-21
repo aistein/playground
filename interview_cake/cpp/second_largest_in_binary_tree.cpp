@@ -40,59 +40,96 @@ public:
     }
 };
 
-int _findSecondLargest__R__(const BinaryTreeNode *rootNode, int secondLargestSoFar, int largestSoFar) {
-	int nextSecondLargest = secondLargestSoFar;
-	int nextLargest = largestSoFar;
+int findLargest(const BinaryTreeNode *root) {
+	const BinaryTreeNode *curr = root;
 
-	if ( rootNode->value_ > largestSoFar ) {
-		nextLargest = rootNode->value_;
-		nextSecondLargest = largestSoFar;
-	}
-	else if ( rootNode->value_ > secondLargestSoFar ) {
-		nextSecondLargest = rootNode->value_;
-	}
+	while (curr->right_)
+		curr = curr->right_;
 
-	if ( rootNode->right_ ) {
-		return _findSecondLargest__R__(rootNode->right_, nextSecondLargest, nextLargest);
-	}
-	if ( rootNode->left_ ) {
-		return _findSecondLargest__R__(rootNode->left_, nextSecondLargest, nextLargest);
-	}
-	return nextSecondLargest;
+	return curr->value_;
 }
 
+// int _findSecondLargest__R__(const BinaryTreeNode *rootNode, int secondLargestSoFar, int largestSoFar) {
+// 	int nextSecondLargest = secondLargestSoFar;
+// 	int nextLargest = largestSoFar;
+//
+// 	if ( rootNode->value_ > largestSoFar ) {
+// 		nextLargest = rootNode->value_;
+// 		nextSecondLargest = largestSoFar;
+// 	}
+// 	else if ( rootNode->value_ > secondLargestSoFar ) {
+// 		nextSecondLargest = rootNode->value_;
+// 	}
+//
+// 	if ( rootNode->right_ ) {
+// 		return _findSecondLargest__R__(rootNode->right_, nextSecondLargest, nextLargest);
+// 	}
+// 	if ( rootNode->left_ ) {
+// 		return _findSecondLargest__R__(rootNode->left_, nextSecondLargest, nextLargest);
+// 	}
+// 	return nextSecondLargest;
+// }
+int _findSecondLargest__R__(const BinaryTreeNode *root) {
+	if (!root)
+		throw invalid_argument("null node reached");
 
-int _findSecondLargest__I__(const BinaryTreeNode *rootNode) {
-	// Initializers
-	stack<pair<pair<int,int>, const BinaryTreeNode *>> theStack;
-	theStack.push( make_pair( make_pair( INT_MIN, INT_MIN ), rootNode ) );
+	if (root->left_ && !root->right_)
+		return findLargest(root->left_);
 
-	// walk the tree (partial to right branches)
-	int largestSoFar, secondLargestSoFar, nextLargest, nextSecondLargest;
-	const BinaryTreeNode *curr;
-	while( !theStack.empty() ) {
-		nextLargest = largestSoFar = theStack.top().first.first;
-		nextSecondLargest = secondLargestSoFar = theStack.top().first.second;
-		curr = theStack.top().second;
-		theStack.pop();
+	if (root->right_->left_ || root->right_->right_)
+		return _findSecondLargest__R__(root->right_);
 
-		if ( curr->value_ > largestSoFar ) {
-			nextLargest = curr->value_;
-			nextSecondLargest = largestSoFar;
-		}
-		else if ( curr->value_ > secondLargestSoFar ) {
-			nextSecondLargest = curr->value_;
-		}
-
-		if ( curr->right_ )
-			theStack.push( make_pair( make_pair( nextLargest, nextSecondLargest ), curr->right_ ) );
-		else if ( curr->left_ )
-			theStack.push( make_pair( make_pair( nextLargest, nextSecondLargest ), curr->left_ ) );
-	}
-
-	return nextSecondLargest;
+	return root->value_;
 }
 
+// int _findSecondLargest__I__(const BinaryTreeNode *rootNode) {
+// 	// Initializers
+// 	stack<pair<pair<int,int>, const BinaryTreeNode *>> theStack;
+// 	theStack.push( make_pair( make_pair( INT_MIN, INT_MIN ), rootNode ) );
+//
+// 	// walk the tree (partial to right branches)
+// 	int largestSoFar, secondLargestSoFar, nextLargest, nextSecondLargest;
+// 	const BinaryTreeNode *curr;
+// 	while( !theStack.empty() ) {
+// 		nextLargest = largestSoFar = theStack.top().first.first;
+// 		nextSecondLargest = secondLargestSoFar = theStack.top().first.second;
+// 		curr = theStack.top().second;
+// 		theStack.pop();
+//
+// 		if ( curr->value_ > largestSoFar ) {
+// 			nextLargest = curr->value_;
+// 			nextSecondLargest = largestSoFar;
+// 		}
+// 		else if ( curr->value_ > secondLargestSoFar ) {
+// 			nextSecondLargest = curr->value_;
+// 		}
+//
+// 		if ( curr->right_ )
+// 			theStack.push( make_pair( make_pair( nextLargest, nextSecondLargest ), curr->right_ ) );
+// 		else if ( curr->left_ )
+// 			theStack.push( make_pair( make_pair( nextLargest, nextSecondLargest ), curr->left_ ) );
+// 	}
+//
+// 	return nextSecondLargest;
+// }
+int _findSecondLargest__I__(const BinaryTreeNode *root) {
+	if (!root || (!root->left_ && !root->right_))
+		throw invalid_argument("not enough nodes");
+
+	const BinaryTreeNode *curr = root;
+	while (curr) {
+		if (curr->left_ && !curr->right_)
+			return findLargest(curr->left_);
+
+		if (curr->right_->left_ || curr->right_->right_)
+			curr = curr->right_;
+
+		else
+			return curr->value_;
+	}
+
+	return -1;
+}
 
 int findSecondLargest(const BinaryTreeNode* rootNode)
 {
@@ -105,7 +142,7 @@ int findSecondLargest(const BinaryTreeNode* rootNode)
 
 	// preprocessor directive to choose between recursive and iterative implementations
 	#ifdef RECURSIVE
-		return _findSecondLargest__R__(rootNode, INT_MIN, INT_MIN);
+		return _findSecondLargest__R__(rootNode);
 	#else
 		return _findSecondLargest__I__(rootNode);
 	#endif
