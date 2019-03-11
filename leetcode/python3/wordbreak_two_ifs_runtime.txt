@@ -1,0 +1,6 @@
+Test 1: s = leetcode, wordDict = ['leet', 'code']
+...completed in 1.3113021850585938e-05 s.
+Test 2: s = applepenapple, wordDict = ['apple', 'pen']
+...completed in 1.5020370483398438e-05 s.
+Test 3: s = catsandog, wordDict = ['cats', 'dog', 'sand', 'and', 'cat']
+...completed in 1.0967254638671875e-05 s.
