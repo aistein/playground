@@ -1,7 +1,6 @@
 #!/usr/local/bin/python3
 
-def counting_sort(arr):
-    rng = max(arr)
+def counting_sort(arr, rng):
     if rng > len(arr)**2:
         raise OverflowError("range {} >> number of elements {}; don't use csort".format(
             rng,len(arr)))
