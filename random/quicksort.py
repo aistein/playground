@@ -29,7 +29,7 @@ def quicksort_helper(A, left, right):
         return
     # Select pivot_index as midpoint of range (left, right]
     pivot_index = left + (right - left) // 2
-    # Partition that range into 3 regions [{x: x < pivot},{y: y == pivot}, {z: z > pivot}]
+    # Partition that range into 3 regions [{x: x < pivot},{y: y == pivot},{z: z > pivot}]
     partition(A, pivot_index)
     # Sort the bottom and top regions from that partition
     quicksort_helper(A, left, pivot_index)
